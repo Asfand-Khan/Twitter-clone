@@ -4,6 +4,7 @@ import Input from "../layouts/Input";
 import Modal from "../Modal";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import { signIn } from "next-auth/react";
+import { toast } from "react-hot-toast";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
@@ -28,10 +29,14 @@ const LoginModal = () => {
         password,
       });
 
+      // Notify the user by toast
+      toast.success("Login successful");
+
       // After successful login
       loginModal.onClose();
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
