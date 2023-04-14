@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import Input from "../layouts/Input";
 import Modal from "../Modal";
 import useRegisterModal from "@/hooks/useRegisterModal";
+import { signIn } from "next-auth/react";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
@@ -22,7 +23,10 @@ const LoginModal = () => {
     try {
       setIsLoading(true);
 
-      // Todo Login functionality
+      signIn("credentials", {
+        email,
+        password,
+      });
 
       // After successful login
       loginModal.onClose();
@@ -31,7 +35,7 @@ const LoginModal = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [loginModal]);
+  }, [loginModal, signIn, email, password]);
 
   // Body for the modal
   const bodyContent = (
@@ -47,6 +51,7 @@ const LoginModal = () => {
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         disabled={isLoading}
+        type="password"
       />
     </div>
   );

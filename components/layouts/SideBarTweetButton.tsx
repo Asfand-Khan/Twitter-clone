@@ -1,11 +1,15 @@
-import { useRouter } from "next/router";
-import React from "react";
+import { useCallback } from "react";
 import { FaFeather } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 const SideBarTweetButton = () => {
   const router = useRouter();
+  const onClick = useCallback(() => {
+    router.push("/");
+  }, [router]);
+
   return (
-    <div onClick={() => router.push("/")}>
+    <div onClick={onClick}>
       <div
         className="
       mt-6

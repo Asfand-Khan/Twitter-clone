@@ -1,8 +1,11 @@
 import useLoginModal from "@/hooks/useLoginModal";
+import { toast } from "react-hot-toast";
 import { useCallback, useState } from "react";
+import axios from "axios";
 import Input from "../layouts/Input";
 import Modal from "../Modal";
 import useRegisterModal from "@/hooks/useRegisterModal";
+import { signIn } from "next-auth/react";
 
 const RegisterModal = () => {
   const loginModal = useLoginModal();
@@ -25,16 +28,31 @@ const RegisterModal = () => {
     try {
       setIsLoading(true);
 
-      // Todo Register and login functionality
+      await axios.post("/api/register", {
+        name,
+        username,
+        email,
+        password,
+      });
+
+      // Notify the user by toaster
+      toast.success("Account successfully created...");
+
+      // logging in
+      signIn("credentials", {
+        email,
+        password,
+      });
 
       // After successful registration
       registerModal.onClose();
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong...");
     } finally {
       setIsLoading(false);
     }
-  }, [registerModal]);
+  }, [registerModal, name, email, username, password, signIn]);
 
   // Body for the modal
   const bodyContent = (
@@ -84,8 +102,8 @@ const RegisterModal = () => {
     <Modal
       disabled={isLoading}
       isOpen={registerModal.isOpen}
-      title="Login"
-      actionLabel="Sign in"
+      title="Create An Account"
+      actionLabel="Sign Up"
       onClose={registerModal.onClose}
       onSubmit={onSubmit}
       body={bodyContent}
