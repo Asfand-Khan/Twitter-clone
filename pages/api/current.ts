@@ -1,11 +1,11 @@
 import serverAuth from "@/libs/serverauth";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const current = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "GET") return res.status(405).end();
 
   try {
-    const { currentUser } = await serverAuth(req);
+    const { currentUser } = await serverAuth(req, res);
 
     return res.status(200).json(currentUser);
   } catch (error) {
@@ -14,4 +14,4 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default current;
+export default handler;

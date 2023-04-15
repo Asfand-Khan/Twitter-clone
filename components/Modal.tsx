@@ -86,7 +86,8 @@ const Modal: React.FC<ModalProps> = ({
             {/* Header */}
             <div
               className="
-                p-10
+                px-10
+                py-5
                 rounded-t
                 flex
                 justify-between
@@ -111,7 +112,7 @@ const Modal: React.FC<ModalProps> = ({
               </button>
             </div>
             {/* Body */}
-            <div className="p-10 flex-auto relative">{body}</div>
+            <div className="px-10 py-5 flex-auto relative">{body}</div>
             {/* Footer */}
             <div className="flex flex-col gap-2 p-10">
               <Button

@@ -18,9 +18,11 @@ const SideBarItem: React.FC<SideBarItemProps> = ({
   onClick,
   auth,
 }) => {
-  const { data: currentUser } = useCurrentUser();
-  const loginModal = useLoginModal();
   const router = useRouter();
+  const loginModal = useLoginModal();
+
+  const { data: currentUser } = useCurrentUser();
+
   const handleClick = useCallback(() => {
     if (onClick) {
       return onClick();
@@ -31,7 +33,8 @@ const SideBarItem: React.FC<SideBarItemProps> = ({
     } else if (href) {
       router.push(href);
     }
-  }, [router, onClick, href, auth, currentUser, loginModal]);
+  }, [router, href, auth, loginModal, onClick, currentUser]);
+
   return (
     <div onClick={handleClick} className="flex flex-row items-center">
       <div
