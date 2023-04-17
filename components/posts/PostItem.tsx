@@ -1,41 +1,47 @@
-import useCurrentUser from "@/hooks/useCurrentUser";
-import useLoginModal from "@/hooks/useLoginModal";
-import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/router";
 import { useCallback, useMemo } from "react";
+import { AiOutlineHeart, AiFillHeart, AiOutlineMessage } from "react-icons/ai";
+import { formatDistanceToNowStrict } from "date-fns";
+
+import useLoginModal from "@/hooks/useLoginModal";
+import useCurrentUser from "@/hooks/useCurrentUser";
 import Avatar from "../Avatar";
-import { AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
+import useLike from "@/hooks/useLike";
 
 interface PostItemProps {
   data: Record<string, any>;
   userId?: string;
 }
-const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
+const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
 
   const { data: currentUser } = useCurrentUser();
+  const { hasLiked, toggleLike } = useLike({ postId: data.id, userId });
 
   const goToUser = useCallback(
-    (event: any) => {
-      event.stopPropagation();
-
+    (ev: any) => {
+      ev.stopPropagation();
       router.push(`/users/${data.user.id}`);
     },
-    [data.user.id, router]
+    [router, data.user.id]
   );
 
   const goToPost = useCallback(() => {
     router.push(`/posts/${data.id}`);
-  }, [data.id, router]);
+  }, [router, data.id]);
 
   const onLike = useCallback(
-    (event: any) => {
+    async (event: any) => {
       event.stopPropagation();
 
-      loginModal.onOpen();
+      if (!currentUser) {
+        return loginModal.onOpen();
+      }
+
+      toggleLike();
     },
-    [loginModal]
+    [loginModal, currentUser, toggleLike]
   );
 
   const createdAt = useMemo(() => {
@@ -45,6 +51,8 @@ const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
 
     return formatDistanceToNowStrict(new Date(data.createdAt));
   }, [data.createdAt]);
+
+  const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart;
   return (
     <div
       onClick={goToPost}
@@ -98,8 +106,8 @@ const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
                 hover:text-red-500
             "
             >
-              <AiOutlineHeart size={20} />
-              <p>{data.comment?.length || 0}</p>
+              <LikeIcon size={20} color={hasLiked ? "red" : ""} />
+              <p>{data.likedIds?.length || 0}</p>
             </div>
           </div>
         </div>

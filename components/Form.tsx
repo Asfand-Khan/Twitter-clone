@@ -11,9 +11,9 @@ import Avatar from "./Avatar";
 interface FormProps {
   placeholder: string;
   isComment?: boolean;
-  isPost?: string;
+  postId?: string;
 }
-const Form: React.FC<FormProps> = ({ placeholder, isComment, isPost }) => {
+const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
