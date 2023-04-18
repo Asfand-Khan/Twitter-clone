@@ -40,7 +40,7 @@ const LoginModal = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [loginModal, signIn, email, password]);
+  }, [loginModal, email, password]);
 
   // Body for the modal
   const bodyContent = (
@@ -64,7 +64,7 @@ const LoginModal = () => {
   const footerContent = (
     <div className="text-center text-neutral-400 mt-4">
       <p>
-        Don't have an account?
+        Don&apos;t have an account?
         <span
           onClick={onToggle}
           className="text-white hover:underline cursor-pointer"

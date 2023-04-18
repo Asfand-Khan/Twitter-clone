@@ -52,7 +52,7 @@ const RegisterModal = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [registerModal, name, email, username, password, signIn]);
+  }, [registerModal, name, email, username, password]);
 
   // Body for the modal
   const bodyContent = (
