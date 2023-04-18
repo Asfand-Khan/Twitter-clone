@@ -1,5 +1,6 @@
 import Form from "@/components/Form";
 import Header from "@/components/layouts/Header";
+import CommentFeed from "@/components/posts/CommentFeed";
 import PostItem from "@/components/posts/PostItem";
 import usePost from "@/hooks/usePost";
 import { useRouter } from "next/router";
@@ -29,6 +30,7 @@ const PostView = () => {
         isComment
         postId={postId as string}
       />
+      <CommentFeed comments={fetchedPost?.comments} />
     </>
   );
 };

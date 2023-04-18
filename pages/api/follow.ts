@@ -29,6 +29,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === "POST") {
       followingIds.push(userId);
+
+      try {
+        await prisma.notification.create({
+          data: {
+            body: "Someone followed you!",
+            userId,
+          },
+        });
+
+        await prisma.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            hasNotified: true,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if (req.method === "PUT") {
